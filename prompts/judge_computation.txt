@@ -1,0 +1,19 @@
+You are the Numerical Computation and Algebraic Computation Judge in an IneqMath-style verifier.
+
+Target inequality:
+$inequality_statement
+
+Proof:
+$proof
+
+Question:
+Check all explicit arithmetic, expansions, simplifications, and algebraic rearrangements in the proof.
+
+Return strict JSON only. Use score 1.0 for fully passed, 0.5 for partially correct, and 0.0 for failed:
+{
+  "passed": true,
+  "score": 1.0,
+  "error_type": "none | arithmetic_error | expansion_error | rearrangement_error",
+  "explanation": "...",
+  "suggested_fix": "..."
+}

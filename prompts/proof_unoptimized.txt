@@ -1,0 +1,7 @@
+Prove the following inequality.
+
+Inequality name:
+$inequality_name
+
+Statement:
+$inequality_statement

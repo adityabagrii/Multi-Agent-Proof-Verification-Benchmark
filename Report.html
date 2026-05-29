@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Inequality Proof Verification Report</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172026;
+      --muted: #5d6872;
+      --line: #d9e0e7;
+      --panel: #f7f9fb;
+      --accent: #0f766e;
+      --accent-2: #334155;
+      --warn: #b45309;
+      --ok: #15803d;
+      --bad: #b91c1c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #ffffff;
+      line-height: 1.5;
+    }
+    header {
+      padding: 42px 56px 30px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #eef7f6 0%, #ffffff 100%);
+    }
+    main { max-width: 1120px; margin: 0 auto; padding: 34px 28px 56px; }
+    h1 { margin: 0 0 12px; font-size: 34px; letter-spacing: 0; }
+    h2 { margin: 36px 0 12px; font-size: 22px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    h3 { margin: 22px 0 8px; font-size: 17px; }
+    p { margin: 8px 0 12px; }
+    .meta, .subtle { color: var(--muted); }
+    .team { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .member { border: 1px solid var(--line); background: #fff; padding: 10px 12px; border-radius: 8px; min-width: 220px; }
+    .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 20px 0 8px; }
+    .card { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: var(--panel); }
+    .card .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+    .card .value { font-size: 28px; font-weight: 700; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0 22px; font-size: 14px; }
+    th, td { border: 1px solid var(--line); padding: 9px 10px; text-align: left; vertical-align: top; }
+    th { background: #eef2f7; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 14px; border-radius: 8px; overflow-x: auto; }
+    ul { margin-top: 8px; }
+    .deliverables li { margin-bottom: 6px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; border: 1px solid var(--line); }
+    .ok { color: var(--ok); }
+    .bad { color: var(--bad); }
+    .note { border-left: 4px solid var(--accent); padding: 10px 14px; background: #f0fdfa; }
+    @media (max-width: 820px) { header { padding: 28px; } .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agentic Inequality Proof Verification Report</h1>
+    <p class="meta">DSPy IneqMath-style proof verification using precomputed Gemini proofs and NVIDIA NIM verifier agents.</p>
+    <div class="team">
+      <div class="member"><strong>Aditya Bagri</strong><br>Roll No. 2022029</div>
+      <div class="member"><strong>Mridul Goel</strong><br>Roll No. 2022303</div>
+    </div>
+  </header>
+  <main>
+    <section>
+      <h2>Executive Summary</h2>
+      <p>This project evaluates generated inequality proofs with a granular agentic verifier inspired by IneqMath. Final-answer correctness alone is not treated as sufficient: each proof is decomposed into proof steps and checked for assumptions, step validity, logical gaps, toy-case misuse, computation errors, and unsafe approximations.</p>
+      <div class="cards">
+        <div class="card"><div class="label">Verified Runs</div><div class="value">8</div></div>
+        <div class="card"><div class="label">Parse Success</div><div class="value">100%</div></div>
+        <div class="card"><div class="label">Overall Pass</div><div class="value">75%</div></div>
+        <div class="card"><div class="label">Avg Judge Score</div><div class="value">0.97</div></div>
+      </div>
+      <p class="subtle">Average step-validity rate across evaluated proofs: <strong>92%</strong>.</p>
+    </section>
+
+    <section>
+      <h2>Project Deliverables</h2>
+      <ul class="deliverables">
+        <li><strong>Inequalities covered:</strong> Cauchy-Schwarz Inequality and Bernoulli's Inequality.</li>
+        <li><strong>Proof generation evidence:</strong> Gemini outputs are stored in <code>outputs/raw_runs/</code> and loaded through the <code>precomputed</code> backend.</li>
+        <li><strong>Verification architecture:</strong> DSPy modules call NVIDIA NIM for final-answer, assumption, step-validity, logical-gap, toy-case, computation, and approximation judging.</li>
+        <li><strong>Prompt comparison:</strong> baseline unoptimized prompt vs manually optimized prompt.</li>
+        <li><strong>Prompt optimization evidence:</strong> GEPA/BootstrapFewShot report is stored in <code>outputs/optimization/optimization_report.md</code> when optimizer execution completes.</li>
+        <li><strong>Machine-readable results:</strong> aggregate JSON in <code>outputs/verification_results.json</code> and per-proof judge JSON files in <code>outputs/verified_runs/</code>.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Agent Workflow</h2>
+      <ol>
+        <li>Load precomputed Gemini proof variants from <code>outputs/raw_runs</code>.</li>
+        <li>Parse proof assumptions, numbered steps, and final conclusion.</li>
+        <li>Use a DSPy structured extractor to produce typed proof-step records.</li>
+        <li>Run NVIDIA NIM verifier agents for final answer, assumptions, step validity, logical gaps, toy cases, computations, and approximations.</li>
+        <li>Aggregate pass/fail, parse success, average judge score, and step-validity rate.</li>
+        <li>Compare prompt variants and record GEPA prompt-optimization evidence when enabled.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Metrics By Inequality And Prompt</h2>
+      <table><thead><tr><th>Inequality</th><th>Prompt</th><th>Runs</th><th>Parse Success</th><th>Step Validity</th><th>Overall Pass</th><th>Avg Judge Score</th><th>Repairs</th></tr></thead><tbody><tr><td>bernoulli</td><td>baseline_unoptimized</td><td>2</td><td>100%</td><td>100%</td><td>100%</td><td>1.00</td><td>0.00</td></tr>
+<tr><td>bernoulli</td><td>manual_optimized</td><td>2</td><td>100%</td><td>100%</td><td>100%</td><td>1.00</td><td>0.00</td></tr>
+<tr><td>cauchy_schwarz</td><td>baseline_unoptimized</td><td>2</td><td>100%</td><td>68%</td><td>0%</td><td>0.88</td><td>0.00</td></tr>
+<tr><td>cauchy_schwarz</td><td>manual_optimized</td><td>2</td><td>100%</td><td>100%</td><td>100%</td><td>1.00</td><td>0.00</td></tr></tbody></table>
+    </section>
+
+    <section>
+      <h2>Prompt-Level Comparison</h2>
+      <table><thead><tr><th>Prompt</th><th>Runs</th><th>Parse Success</th><th>Step Validity</th><th>Overall Pass</th><th>Avg Judge Score</th></tr></thead><tbody><tr><td>baseline_unoptimized</td><td>4</td><td>100%</td><td>84%</td><td>50%</td><td>0.94</td></tr>
+<tr><td>manual_optimized</td><td>4</td><td>100%</td><td>100%</td><td>100%</td><td>1.00</td></tr></tbody></table>
+    </section>
+
+    <section>
+      <h2>Judge Breakdown</h2>
+      <table><thead><tr><th>Judge</th><th>Calls</th><th>Pass Rate</th><th>Avg Score</th><th>Top Failure Types</th></tr></thead><tbody><tr><td>approximation</td><td>8</td><td>100%</td><td>1.00</td><td>none</td></tr>
+<tr><td>assumption</td><td>8</td><td>100%</td><td>1.00</td><td>none</td></tr>
+<tr><td>computation</td><td>8</td><td>100%</td><td>1.00</td><td>none</td></tr>
+<tr><td>final_answer</td><td>8</td><td>100%</td><td>1.00</td><td>none</td></tr>
+<tr><td>logical_gap</td><td>57</td><td>98%</td><td>0.98</td><td>logical_gap (1)</td></tr>
+<tr><td>step_validity</td><td>57</td><td>93%</td><td>0.95</td><td>unjustified_step (4)</td></tr>
+<tr><td>toy_case</td><td>8</td><td>100%</td><td>1.00</td><td>none</td></tr></tbody></table>
+    </section>
+
+    <section>
+      <h2>Per-Run Verification Results</h2>
+      <table><thead><tr><th>Run</th><th>Inequality</th><th>Prompt</th><th>Pass</th><th>Score</th><th>Step Validity</th></tr></thead><tbody><tr><td>1</td><td>bernoulli</td><td>baseline_unoptimized</td><td>Pass</td><td>1.00</td><td>100%</td></tr>
+<tr><td>2</td><td>bernoulli</td><td>baseline_unoptimized</td><td>Pass</td><td>1.00</td><td>100%</td></tr>
+<tr><td>1</td><td>bernoulli</td><td>manual_optimized</td><td>Pass</td><td>1.00</td><td>100%</td></tr>
+<tr><td>2</td><td>bernoulli</td><td>manual_optimized</td><td>Pass</td><td>1.00</td><td>100%</td></tr>
+<tr><td>1</td><td>cauchy_schwarz</td><td>baseline_unoptimized</td><td>Fail</td><td>0.83</td><td>60%</td></tr>
+<tr><td>2</td><td>cauchy_schwarz</td><td>baseline_unoptimized</td><td>Fail</td><td>0.93</td><td>75%</td></tr>
+<tr><td>1</td><td>cauchy_schwarz</td><td>manual_optimized</td><td>Pass</td><td>1.00</td><td>100%</td></tr>
+<tr><td>2</td><td>cauchy_schwarz</td><td>manual_optimized</td><td>Pass</td><td>1.00</td><td>100%</td></tr></tbody></table>
+    </section>
+
+    <section>
+      <h2>Prompt Optimization Evidence</h2>
+      <div class="note">
+        <h3>Final Run Prompt Comparison</h3>
+<p>This table is the primary submission evidence because it compares the prompts on the final proof-generation run used in `outputs/verification_results.json`.</p>
+<p>Selected submission prompt: `baseline_unoptimized` based on final-run overall pass rate, then judge score and step-validity rate.</p>
+<h3>DSPy Optimizer Run</h3>
+<p>This table records the separate DSPy optimizer evaluation. Because LLM proof generation and judging are stochastic, this table is treated as optimizer trace evidence, while the final-run comparison above is the submission comparison.</p>
+<p>Highest-scoring optimizer-run candidate: `manual_optimized`. This is optimizer trace evidence only; the selected submission prompt is based on the final-run comparison above.</p>
+<p>The optimized DSPy program is evaluated against the same granular verifier as the baseline and manually optimized prompts. Strong optimization evidence is improvement in pass rate, parse success, step validity, and reductions in logical-gap and computation failures.</p>
+<h3>Optimizer Notes</h3>
+<li>dspy_gepa_optimized: Compiled with DSPy GEPA on 1 train and 1 validation examples.</li>
+      </div>
+    </section>
+
+    <section>
+      <h2>Artifact Inventory</h2>
+      <ul>
+        <li><code>outputs/raw_runs/*.md</code>: 18 proof files, including precomputed and repaired variants where present.</li>
+        <li><code>outputs/verified_runs/*.json</code>: 8 per-proof verification JSON files for the final aggregate run.</li>
+        <li><code>outputs/verification_results.json</code>: final aggregate machine-readable verification results.</li>
+        <li><code>outputs/final_submission_report.md</code>: Markdown report generated by the workflow.</li>
+        <li><code>outputs/final_visual_report.html</code>: this visual report for submission.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Reproducibility</h2>
+      <p>The final run used precomputed Gemini proofs, NVIDIA NIM through DSPy, two runs per inequality/prompt, no repairs, and optimizer evidence enabled.</p>
+      <pre>python main.py \
+  --generation-backend precomputed \
+  --runs 2 \
+  --inequality all \
+  --prompt-type all \
+  --max-repairs 0 \
+  --run-optimizer</pre>
+      <p>To regenerate this HTML report:</p>
+      <pre>python scripts/generate_visual_report.py</pre>
+    </section>
+  </main>
+</body>
+</html>

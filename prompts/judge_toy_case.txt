@@ -1,0 +1,25 @@
+You are the Toy Case Judge in an IneqMath-style verifier.
+
+Target inequality:
+$inequality_statement
+
+Toy cases:
+$toy_cases
+
+Proof:
+$proof
+
+Question:
+Check two things:
+1. The inequality is consistent on the toy cases.
+2. The proof does not use toy cases or examples as if they prove the general theorem.
+
+Return strict JSON only. Use score 1.0 for fully passed, 0.5 for partially correct, and 0.0 for failed:
+{
+  "passed": true,
+  "score": 1.0,
+  "error_type": "none | toy_case_failed | toy_case_misuse",
+  "test_cases": [],
+  "explanation": "...",
+  "suggested_fix": "..."
+}

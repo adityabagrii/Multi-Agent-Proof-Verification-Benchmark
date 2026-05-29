@@ -1,0 +1,68 @@
+[
+  {
+    "id": "cauchy_schwarz",
+    "name": "Cauchy-Schwarz Inequality",
+    "statement": "For real numbers a_1,...,a_n and b_1,...,b_n, prove that (sum_{i=1}^n a_i b_i)^2 <= (sum_{i=1}^n a_i^2)(sum_{i=1}^n b_i^2).",
+    "assumptions": [
+      "a_1,...,a_n and b_1,...,b_n are real numbers",
+      "n is a positive finite integer"
+    ],
+    "target_relation": "(sum a_i b_i)^2 <= (sum a_i^2)(sum b_i^2)",
+    "proof_hint": "A valid proof must first handle the case sum b_i^2 = 0 before using a quadratic/discriminant argument or choosing t. If sum b_i^2 = 0, then all b_i = 0 and both sides reduce correctly. Only after that may the proof use the nonzero quadratic coefficient, discriminant argument, or a parameter choice involving division by sum b_i^2.",
+    "toy_cases": [
+      {
+        "description": "two nonzero vectors",
+        "a": [1, 2],
+        "b": [3, 4]
+      },
+      {
+        "description": "zero vector equality case",
+        "a": [0, 0],
+        "b": [1, 2]
+      },
+      {
+        "description": "proportional equality case",
+        "a": [2, 4],
+        "b": [1, 2]
+      }
+    ]
+  },
+  {
+    "id": "bernoulli",
+    "name": "Bernoulli's Inequality",
+    "statement": "For x >= -1 and integer n >= 0, prove that (1+x)^n >= 1 + nx.",
+    "assumptions": [
+      "x >= -1",
+      "n is a nonnegative integer"
+    ],
+    "target_relation": "(1+x)^n >= 1 + nx",
+    "proof_hint": "Use induction on n. For n=0, explicitly state the empty-product convention (1+x)^0 = 1, including the boundary case x=-1. For the inductive step, use x >= -1 so 1+x >= 0 and multiplication preserves inequality direction.",
+    "toy_cases": [
+      {
+        "description": "zero exponent",
+        "x": -0.5,
+        "n": 0
+      },
+      {
+        "description": "negative x in required domain",
+        "x": -0.5,
+        "n": 3
+      },
+      {
+        "description": "positive x",
+        "x": 2,
+        "n": 4
+      },
+      {
+        "description": "boundary x=-1 with positive exponent",
+        "x": -1,
+        "n": 2
+      },
+      {
+        "description": "zero exponent boundary convention",
+        "x": -1,
+        "n": 0
+      }
+    ]
+  }
+]

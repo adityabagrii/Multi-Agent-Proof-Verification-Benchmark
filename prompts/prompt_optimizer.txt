@@ -1,0 +1,18 @@
+You are a prompt optimizer using GEPA-style reflective feedback.
+
+Rewrite the proof-generation prompt to improve verification scores.
+
+Current prompt:
+$current_prompt
+
+Metric summary:
+$metric_summary
+
+Verifier feedback:
+$feedback
+
+Return only the improved prompt template. Preserve these placeholders where useful:
+$inequality_name
+$inequality_statement
+$assumptions
+$proof_hint

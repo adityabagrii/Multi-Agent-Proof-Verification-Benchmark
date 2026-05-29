@@ -1,0 +1,46 @@
+[
+  {
+    "id": "cauchy_schwarz_vector",
+    "base_inequality_id": "cauchy_schwarz",
+    "focus": "vector proof",
+    "expected_features": [
+      "state real finite-dimensional vectors",
+      "handle zero vector case",
+      "use nonnegativity of squared norm",
+      "state equality when vectors are linearly dependent"
+    ]
+  },
+  {
+    "id": "cauchy_schwarz_quadratic",
+    "base_inequality_id": "cauchy_schwarz",
+    "focus": "quadratic-discriminant proof",
+    "expected_features": [
+      "define a nonnegative quadratic",
+      "handle zero denominator before choosing a parameter",
+      "derive the discriminant condition",
+      "conclude the exact target relation"
+    ]
+  },
+  {
+    "id": "bernoulli_induction",
+    "base_inequality_id": "bernoulli",
+    "focus": "induction proof",
+    "expected_features": [
+      "prove the n=0 base case",
+      "use x >= -1 to show 1+x >= 0",
+      "preserve inequality direction when multiplying",
+      "complete the induction step"
+    ]
+  },
+  {
+    "id": "bernoulli_edge_cases",
+    "base_inequality_id": "bernoulli",
+    "focus": "boundary cases n=0 and x=-1",
+    "expected_features": [
+      "explicitly verify n=0",
+      "explicitly discuss x=-1",
+      "avoid assuming x >= 0",
+      "state equality cases"
+    ]
+  }
+]

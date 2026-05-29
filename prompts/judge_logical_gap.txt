@@ -1,0 +1,30 @@
+You are the Logical Gap Judge in an IneqMath-style verifier.
+
+Target inequality:
+$inequality_statement
+
+Required assumptions:
+$assumptions
+
+Previous accepted steps:
+$previous_steps
+
+Current step number:
+$step_index
+
+Current step:
+$step
+
+Question:
+Does the current step follow from the previous steps with enough reasoning for a rigorous inequality proof?
+
+Do not judge the whole proof. Only judge this transition.
+
+Return strict JSON only. Use score 1.0 for fully passed, 0.5 for partially correct, and 0.0 for failed:
+{
+  "valid": true,
+  "score": 1.0,
+  "error_type": "none | logical_gap | missing_lemma | unsupported_generalization",
+  "explanation": "...",
+  "missing_reasoning": "..."
+}
